@@ -1,0 +1,43 @@
+.Home {
+    background-image: url("./img/background.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    overflow-x: hidden;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .Home .Horizontal {
+    position: relative;
+  }
+  .Home .Horizontal section {
+    position: absolute;
+    top: 0;
+  }
+  .Home section {
+    background-color: rgba(255, 255, 255, 0.1);
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 2rem;
+  }
+  .Home .Intro {
+    left: 0;
+  }
+  .Home .Work {
+    left: 100vw;
+  }
+  .Home .Services {
+    left: 200vw;
+  }
+  .Home .Clients {
+    position: static;
+  }
+  .Home .People {
+    position: static;
+  }
+  
