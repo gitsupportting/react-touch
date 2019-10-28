@@ -52,6 +52,10 @@ const Home3 = () => {
   let mouseDownHandler;
   let mouseMoveHandler;
   let mouseUpHandler;
+  let touchStartHandler;
+  let touchMoveHandler;
+  let touchEndHandler;
+
   // get sizes
   useEffect(() => {
     // get widths
@@ -59,6 +63,10 @@ const Home3 = () => {
     mouseDownHandler = window.addEventListener('mousedown', handleMouseDownHandler);
     mouseMoveHandler = window.addEventListener('mousemove', handleMouseMoveHandler);
     mouseUpHandler = window.addEventListener('mouseup', handleMouseUpHandler);
+
+    touchStartHandler = window.addEventListener('touchstart', handleTouchStartHandler);
+    touchMoveHandler = window.addEventListener('touchmove', handleTouchMoveHandler);
+    touchEndHandler = window.addEventListener('touchend', handleTouchEndHandler);
 
     let d = 0
     ;[intro, work, services].forEach(ref => {
@@ -90,6 +98,15 @@ const Home3 = () => {
       }
       if (mouseUpHandler) {
         window.removeEventListener("mouseup", mouseUpHandler);
+      }
+      if (touchStartHandler) {
+        window.removeEventListener("touchstart", touchStartHandler);
+      }
+      if (touchMoveHandler) {
+        window.removeEventListener("touchmove", touchMoveHandler);
+      }
+      if (touchEndHandler) {
+        window.removeEventListener("touchend", touchEndHandler);
       }
     }
   })
@@ -146,6 +163,49 @@ const Home3 = () => {
         setY(`${y}px`);
         prevX = e.x;
         prevY = e.y;
+    }
+  }
+
+  const handleTouchStartHandler = e => {
+    if (!mouseDownStatus) {
+      mouseDownStatus = true;
+      setDownPosX(e.targetTouches[0].clientX);
+      setDownPosY(e.targetTouches[0].clientY);
+      prevX = e.targetTouches[0].clientX;
+      prevY = e.targetTouches[0].clientY;
+    }
+  }
+
+  const handleTouchEndHandler = e => {
+    if (mouseDownStatus) {
+      mouseDownStatus = false;
+    }
+  }
+
+  const handleTouchMoveHandler = e => {
+    if (mouseDownStatus) {
+      let pageY;
+
+        if (Math.abs(prevX - e.targetTouches[0].clientX) > Math.abs(prevY - e.targetTouches[0].clientY)) {
+          pageY = getY() + (prevX - e.targetTouches[0].clientX);
+        } else {
+          pageY = getY() + (prevY - e.targetTouches[0].clientY);
+        }
+
+        setScrollY(pageY);
+        // pageY = pageY;
+  
+        let w = getWidth();
+        let h = getHeight();
+        let maxX = height - w;
+        let maxY = height - h;
+        let x = `-${Math.min(maxX, pageY)}px`;
+        let y = Math.min(pageY, maxY);
+        
+        setX(x);
+        setY(`${y}px`);
+        prevX = e.targetTouches[0].clientX;
+        prevY = e.targetTouches[0].clientY;
     }
   }
 
